@@ -1,0 +1,57 @@
+---
+
+- name: Check version number if graalvm_ce_version set to latest
+  block:
+    - name: Get latest release
+      uri:
+        url: https://api.github.com/repos/oracle/graal/releases/latest
+        method: GET
+        return_content: true
+        status_code: 200
+        body_format: json
+        validate_certs: false
+      no_log: true
+      register: _latest_release
+      until: _latest_release.status == 200
+      retries: 5
+
+    - name: Set graalvm_ce_version
+      set_fact:
+        graalvm_ce_version: "{{ _latest_release.json.tag_name[3:] }}"
+  when: graalvm_ce_version == "latest"
+
+- name: Check if graalvm_ce_version is already installed
+  stat:
+    path: "/opt/graalvm-ce-{{ graalvm_ce_version }}"
+  register: is_installed
+
+- name: Download graalvm-ce
+  get_url:
+    url: "https://github.com/oracle/graal/releases/download/\
+      vm-{{ graalvm_ce_version }}/graalvm-ce-linux-amd64-\
+      {{ graalvm_ce_version }}.tar.gz"
+    dest: "~/.ansible/tmp/graalvm-ce-{{ graalvm_ce_version }}.\
+      linux-amd64.tar.gz"
+  when: not is_installed.stat.exists
+
+- name: Unarchive graalvm-ce binaries
+  unarchive:
+    src: "~/.ansible/tmp/graalvm-ce-{{ graalvm_ce_version }}.linux-amd64.tar.gz"
+    dest: /opt/
+    creates: "/opt/graalvm-ce-{{ graalvm_ce_version }}"
+    remote_src: true
+    exclude:
+      - "graalvm-ce-{{ graalvm_ce_version }}/src.zip"
+  when: not is_installed.stat.exists
+
+- name: Clean downloaded files
+  file:
+    state: absent
+    path: "~/.ansible/tmp/graalvm-ce-{{ graalvm_ce_version }}.\
+      linux-amd64.tar.gz"
+
+- name: Update symbolic link
+  file:
+    src: "/opt/graalvm-ce-{{ graalvm_ce_version }}"
+    dest: /opt/graalvm-ce
+    state: link

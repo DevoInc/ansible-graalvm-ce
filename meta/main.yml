@@ -1,0 +1,25 @@
+---
+galaxy_info:
+  author: Stefan Bullones
+  description: Installs graalvm community edition
+  company: DevoInc
+  license: MIT
+
+  min_ansible_version: 2.7.0
+
+  platforms:
+    - name: EL
+      versions:
+        - 7
+    - name: Ubuntu
+      versions:
+        - 16.04
+        - 18.04
+
+  galaxy_tags:
+    - java
+    - graal
+    - graalvm
+    - graalvmce
+
+dependencies: []
