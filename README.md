@@ -1,4 +1,4 @@
-Role Name
+ansible-graalvm-ce
 =========
 
 Installs graalvm community edition in CentOS 7, Ubuntu 16.04 and Ubuntu 18.04
