@@ -27,8 +27,8 @@
 
 - name: Download graalvm-ce
   get_url:
-    url: "https://github.com/oracle/graal/releases/download/\
-      vm-{{ graalvm_ce_version }}/graalvm-ce-linux-amd64-\
+    url: "https://github.com/graalvm/graalvm-ce-builds/releases/download/\
+      vm-{{ graalvm_ce_version }}/graalvm-ce-java8-linux-amd64-\
       {{ graalvm_ce_version }}.tar.gz"
     dest: "~/.ansible/tmp/graalvm-ce-{{ graalvm_ce_version }}.\
       linux-amd64.tar.gz"
@@ -52,6 +52,6 @@
 
 - name: Update symbolic link
   file:
-    src: "/opt/graalvm-ce-{{ graalvm_ce_version }}"
+    src: "/opt/graalvm-ce-java8-{{ graalvm_ce_version }}"
     dest: /opt/graalvm-ce
     state: link

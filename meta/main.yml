@@ -1,6 +1,7 @@
 ---
 galaxy_info:
   author: Stefan Bullones
+  name: devoinc.graalvm-ce
   description: Installs graalvm community edition
   company: DevoInc
   license: MIT

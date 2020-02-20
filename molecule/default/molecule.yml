@@ -19,11 +19,11 @@ provisioner:
   inventory:
     host_vars:
       centos-7:
-        graalvm_ce_version: 19.2.0.1
+        graalvm_ce_version: 19.3.1
       ubuntu-16.04:
-        graalvm_ce_version: 19.2.0.1
+        graalvm_ce_version: 19.3.1
       ubuntu-18.04:
-        graalvm_ce_version: 19.2.0.1
+        graalvm_ce_version: 19.3.1
 
 verifier:
   name: testinfra
