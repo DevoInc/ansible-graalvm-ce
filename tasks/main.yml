@@ -25,23 +25,18 @@
     path: "/opt/graalvm-ce-{{ graalvm_ce_version }}"
   register: is_installed
 
-- name: Create ansible tmp directory if it does not exist
-  file:
-    path: ~/.ansible/tmp
-    state: directory
-    
 - name: Download graalvm-ce
   get_url:
     url: "https://github.com/graalvm/graalvm-ce-builds/releases/download/\
       vm-{{ graalvm_ce_version }}/graalvm-ce-java8-linux-amd64-\
       {{ graalvm_ce_version }}.tar.gz"
-    dest: "~/.ansible/tmp/graalvm-ce-{{ graalvm_ce_version }}.\
+    dest: "/tmp/graalvm-ce-{{ graalvm_ce_version }}.\
       linux-amd64.tar.gz"
   when: not is_installed.stat.exists
 
 - name: Unarchive graalvm-ce binaries
   unarchive:
-    src: "~/.ansible/tmp/graalvm-ce-{{ graalvm_ce_version }}.linux-amd64.tar.gz"
+    src: "/tmp/graalvm-ce-{{ graalvm_ce_version }}.linux-amd64.tar.gz"
     dest: /opt/
     creates: "/opt/graalvm-ce-{{ graalvm_ce_version }}"
     remote_src: true
@@ -52,7 +47,7 @@
 - name: Clean downloaded files
   file:
     state: absent
-    path: "~/.ansible/tmp/graalvm-ce-{{ graalvm_ce_version }}.\
+    path: "/tmp/graalvm-ce-{{ graalvm_ce_version }}.\
       linux-amd64.tar.gz"
 
 - name: Update symbolic link
