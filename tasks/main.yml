@@ -25,6 +25,11 @@
     path: "/opt/graalvm-ce-{{ graalvm_ce_version }}"
   register: is_installed
 
+- name: Create ansible tmp directory if it does not exist
+  file:
+    path: ~/.ansible/tmp
+    state: directory
+    
 - name: Download graalvm-ce
   get_url:
     url: "https://github.com/graalvm/graalvm-ce-builds/releases/download/\
